@@ -1,0 +1,37 @@
+#!/bin/bash
+#SBATCH --job-name=6DPM_coupled
+#SBATCH --time=24:00:00
+#SBATCH --nodes=1
+#SBATCH --ntasks=36
+
+#SBATCH --cpus-per-task=1
+#SBATCH --output=que_slurm-%A
+#SBATCH --error=que_slurm-%A
+
+
+# go to workspace & copy files:
+# -----------------------------
+echo "working directory = "$SLURM_SUBMIT_DIR
+
+cd $SLURM_SUBMIT_DIR
+
+
+module load gnu8
+module load openmpi3
+source /opt/software/openfoam/openfoamv2106/OpenFOAM-v2106/etc/bashrc 
+
+export WM_PRECISION_OPTION=SPDP
+
+mkdir -p log
+
+#preprocessor
+
+#Running
+#mpirun -np 1 topoSet > ./log/logtopoSet.out 2>&1
+#mpirun -np 1 decomposePar > ./log/logDecomp.out 2>&1
+mpirun -np 20 DPMDyMFoam -parallel > ./log/logSolver.out 2>&1
+#mpirun -n 1 reconstructPar > ./log/logReconstructPar.out 2>&1
+wait
+
+exit 
+

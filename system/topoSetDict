@@ -1,0 +1,57 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \    /   O peration     | Version:  4.1.0                                 |
+|   \  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      topoSetDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+actions
+(
+
+//faceZone: int_wirbler
+//{name fs_fluidToWirbler_ami; type faceSet; action new; source patchToFace; patch fluidToWirblerAMI; }
+//{name fz_fluidToWirbler_ami; type faceZoneSet; action new; source setToFaceZone; faceSet fs_fluidToWirbler_ami;}
+
+//faceZone: int_wirbler
+//{name fs_fluidToSchaufel_ami; type faceSet; action new; source patchToFace; patch fluidToSchaufelAMI; }
+//{name fz_fluidToSchaufel_ami; type faceZoneSet; action new; source setToFaceZone; faceSet fs_fluidToSchaufel_ami;}
+
+//{name fs_schaufelToFluid_ami; type faceSet; action new; source patchToFace; patch schaufelToFluidAMI; }
+//{name fz_schaufelToFluid_ami; type faceZoneSet; action new; source setToFaceZone; faceSet fs_schaufelToFluid_ami;}
+
+//{name fs_wirblerToFluid_ami; type faceSet; action new; source patchToFace; patch wirblerToFluidAMI; }
+//{name fz_wirblerToFluid_ami; type faceZoneSet; action new; source setToFaceZone; faceSet fs_wirblerToFluid_ami;}
+
+//faceZone: int_schaufel
+//{name fs_schaufelSide_ami; type faceSet; action new; source patchToFace; patches ( fluidToSchaufelSideAMI schaufelToFluidSideAMI); }
+//{name fz_schaufelSide_ami; type faceZoneSet; action new; source setToFaceZone; faceSet fs_schaufelSide_ami;}
+
+//{name fs_schaufelTop_ami; type faceSet; action new; source patchToFace; patches ( fluidToSchaufelTopAMI schaufelToFluidTopAMI); }
+//{name fz_schaufelTop_ami; type faceZoneSet; action new; source setToFaceZone; faceSet fs_schaufelTop_ami;}
+
+//{name fs_schaufelBottom_ami; type faceSet; action new; source patchToFace; patches ( fluidToSchaufelBottomAMI schaufelToFluidBottomAMI); }
+//{name fz_schaufelBottom_ami; type faceZoneSet; action new; source setToFaceZone; faceSet fs_schaufelBottom_ami;}
+
+//faceZone: int_wirbler
+//{name fs_wirbler_ami; type faceSet; action new; source patchToFace; patches ( fluidToWirblerAMI wirblerToFluidAMI) ; }
+//{name fz_wirbler_ami; type faceZoneSet; action new; source setToFaceZone; faceSet fs_wirbler_ami;}
+
+//faceZone: int_wirbler_wall
+{name fs_wirbler_wall; type faceSet; action new; source patchToFace; patch wirbler_wall; }
+{name fz_wirbler_wall; type faceZoneSet; action new; source setToFaceZone; faceSet fs_wirbler_wall;}
+
+//faceZone: int_schaufel_wall
+{name fs_schaufel_wall; type faceSet; action new; source patchToFace; patch schaufel_wall; }
+{name fz_schaufel_wall; type faceZoneSet; action new; source setToFaceZone; faceSet fs_schaufel_wall;}
+);
+

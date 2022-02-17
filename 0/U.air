@@ -1,0 +1,104 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       volVectorField;
+    location    "0";
+    object      U.air;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dimensions      [0 1 -1 0 0 0 0];
+
+internalField   uniform (0 0 0);
+
+boundaryField
+{
+    bottom_wall
+    {
+        type            movingWallVelocity;
+        value	 	 uniform (0 0 0);
+    }
+    inlet_wall
+    {
+        type            movingWallVelocity;
+        value	 	 uniform (0 0 0);
+    }
+    outerRot_wall_rot
+    {
+        type             movingWallVelocity;//inletOutlet;//zeroGradient;
+        //inletValue	 uniform (0 0 0);
+        value	 	 uniform (0 0 0);
+	//phi		 phi.air;
+    }
+
+    top_wall
+    {
+        type            movingWallVelocity;//inletOutlet; //pressureInletOutletVelocity;
+	//inletValue	uniform (0 0 0);
+        value	 	 uniform (0 0 0);
+    }
+    schaufel_wall
+    {
+        type            movingWallVelocity;
+        value	 	 uniform (0 0 0);
+    }
+    wirbler_wall
+    {
+        type            movingWallVelocity;
+        value	 	 uniform (0 0 0);
+    }
+
+    fluidToSchaufelSideAMI
+    {
+        type            cyclicAMI;
+        value           $internalField;
+    }
+    schaufelToFluidSideAMI
+    {
+        type            cyclicAMI;
+        value           $internalField;
+    }
+    fluidToSchaufelTopAMI
+    {
+        type            cyclicAMI;
+        value           $internalField;
+    }
+    schaufelToFluidTopAMI
+    {
+        type            cyclicAMI;
+        value           $internalField;
+    }
+    fluidToSchaufelBottomAMI
+    {
+        type            cyclicAMI;
+        value           $internalField;
+    }
+    schaufelToFluidBottomAMI
+    {
+        type            cyclicAMI;
+        value           $internalField;
+    }
+
+    fluidToWirblerAMI
+    {
+        type            cyclicAMI;
+        value           $internalField;
+    }
+    wirblerToFluidAMI
+    {
+        type            cyclicAMI;
+        value           $internalField;
+    }
+
+}
+
+
+// ************************************************************************* //

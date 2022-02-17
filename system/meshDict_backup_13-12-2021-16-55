@@ -1,0 +1,27 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+|    _ _ _ _    |                                                              |
+| //         \\ | Creative Fields CF-MESH+                                   |
+| | CF-MESH+  | |                                                              |
+| \\ _ _ _ _ // | Version: 3.4.4                                             |
+|               | Web: www.c-fields.com e-mail: support@c-fields.com           |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+version	2;
+format	ascii;
+class	dictionary;
+location	"system";
+object	meshDict_backup_13-12-2021-16-55;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+meshMultipleDomainsAndBaffles	0;
+domainDefinition
+{
+    convertAllPatchesToFaceZones	1;
+    detachPointsAtAllInternalPatches	0;
+    domainNames	();
+    generateMeshInAllDomains	1;
+}
+
+// ************************************************************************* //

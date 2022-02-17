@@ -1,0 +1,169 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      binary;
+    class       polyBoundaryMesh;
+    arch        "LSB;label=32;scalar=64";
+    location    "constant/polyMesh";
+    object      boundary;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+14
+(
+    bottom_wall
+    {
+        type            wall;
+        inGroups        1(wall);
+        nFaces          28260;
+        startFace       794706;
+    }
+    inlet_wall
+    {
+        type            wall;
+        inGroups        1(wall);
+        nFaces          2276;
+        startFace       822966;
+    }
+    outerRot_wall_rot
+    {
+        type            wall;
+        inGroups        1(wall);
+        nFaces          7344;
+        startFace       825242;
+    }
+    top_wall
+    {
+        type            wall;
+        inGroups        1(wall);
+        nFaces          372;
+        startFace       832586;
+    }
+    schaufel_wall
+    {
+        type            wall;
+        inGroups        1(wall);
+        nFaces          19422;
+        startFace       832958;
+    }
+    wirbler_wall
+    {
+        type            wall;
+        inGroups        1(wall);
+        nFaces          2008;
+        startFace       852380;
+    }
+    fluidToSchaufelSideAMI
+    {
+        type            cyclicAMI;
+        inGroups        1(cyclicAMI);
+        nFaces          6259;
+        startFace       854388;
+        matchTolerance  0.001;
+        transform       noOrdering;
+        neighbourPatch  schaufelToFluidSideAMI;
+        AMIMethod       faceAreaWeightAMI;
+        lowWeightCorrection 0.2;
+        restartUncoveredSourceFace 1;
+    }
+    schaufelToFluidSideAMI
+    {
+        type            cyclicAMI;
+        inGroups        1(cyclicAMI);
+        nFaces          6076;
+        startFace       860647;
+        matchTolerance  0.001;
+        transform       noOrdering;
+        neighbourPatch  fluidToSchaufelSideAMI;
+        AMIMethod       faceAreaWeightAMI;
+        lowWeightCorrection 0.2;
+        restartUncoveredSourceFace 1;
+    }
+    fluidToSchaufelTopAMI
+    {
+        type            cyclicAMI;
+        inGroups        1(cyclicAMI);
+        nFaces          2708;
+        startFace       866723;
+        matchTolerance  0.001;
+        transform       noOrdering;
+        neighbourPatch  schaufelToFluidTopAMI;
+        AMIMethod       faceAreaWeightAMI;
+        lowWeightCorrection 0.2;
+        restartUncoveredSourceFace 1;
+    }
+    schaufelToFluidTopAMI
+    {
+        type            cyclicAMI;
+        inGroups        1(cyclicAMI);
+        nFaces          2716;
+        startFace       869431;
+        matchTolerance  0.001;
+        transform       noOrdering;
+        neighbourPatch  fluidToSchaufelTopAMI;
+        AMIMethod       faceAreaWeightAMI;
+        lowWeightCorrection 0.2;
+        restartUncoveredSourceFace 1;
+    }
+    fluidToSchaufelBottomAMI
+    {
+        type            cyclicAMI;
+        inGroups        1(cyclicAMI);
+        nFaces          10435;
+        startFace       872147;
+        matchTolerance  0.001;
+        transform       noOrdering;
+        neighbourPatch  schaufelToFluidBottomAMI;
+        AMIMethod       faceAreaWeightAMI;
+        lowWeightCorrection 0.2;
+        restartUncoveredSourceFace 1;
+    }
+    schaufelToFluidBottomAMI
+    {
+        type            cyclicAMI;
+        inGroups        1(cyclicAMI);
+        nFaces          11748;
+        startFace       882582;
+        matchTolerance  0.001;
+        transform       noOrdering;
+        neighbourPatch  fluidToSchaufelBottomAMI;
+        AMIMethod       faceAreaWeightAMI;
+        lowWeightCorrection 0.2;
+        restartUncoveredSourceFace 1;
+    }
+    fluidToWirblerAMI
+    {
+        type            cyclicAMI;
+        inGroups        1(cyclicAMI);
+        nFaces          3805;
+        startFace       894330;
+        matchTolerance  0.001;
+        transform       noOrdering;
+        neighbourPatch  wirblerToFluidAMI;
+        AMIMethod       faceAreaWeightAMI;
+        lowWeightCorrection 0.2;
+        restartUncoveredSourceFace 1;
+    }
+    wirblerToFluidAMI
+    {
+        type            cyclicAMI;
+        inGroups        1(cyclicAMI);
+        nFaces          2734;
+        startFace       898135;
+        matchTolerance  0.001;
+        transform       noOrdering;
+        neighbourPatch  fluidToWirblerAMI;
+        AMIMethod       faceAreaWeightAMI;
+        lowWeightCorrection 0.2;
+        restartUncoveredSourceFace 1;
+    }
+)
+
+// ************************************************************************* //

@@ -1,0 +1,112 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      dynamicMeshDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dynamicFvMesh dynamicMultiMotionSolverFvMesh;   //dynamicMotionSolverFvMesh;
+
+motionSolverLibs (fvMotionSolvers);
+
+// Specification of rotation around centre
+rotation1
+{
+    solidBodyMotionFunction  rotatingMotion;
+    rotatingMotionCoeffs
+    {
+        origin      (0 -0.19941 0);
+        axis        (0 0 1);
+        omega       1.2775; // rad/s, 1rad/s=9.55rpm
+    }
+}
+
+
+dynamicMultiMotionSolverFvMeshCoeffs
+{
+    fluid
+    {
+        solver solidBody;
+        cellZone cz_fluid;
+        solidBodyCoeffs
+        {
+            $rotation1;
+        }
+    }
+
+    schaufel
+    {
+        cellZone cz_schaufel;
+        solver solidBody;
+
+        solidBodyCoeffs
+        {
+            solidBodyMotionFunction  multiMotion;
+            multiMotionCoeffs
+            {
+                rotation_1
+                {
+                    $rotation1;
+                }
+                rotation_2
+                {
+                    // Apply counter rotation to keep dualWing aligned
+                    solidBodyMotionFunction rotatingMotion;
+                    rotatingMotionCoeffs
+                    {
+                        origin      (0.091484 -0.65298 0);
+                        axis        (0 0 1);
+                        omega       4.3979; // rad/s, 1rad/s=9.5rpm
+                    }
+                }
+            }
+            //diffusivity quadratic inverseDistance (schaufel_wall);
+        }
+    }
+    
+    wirbler
+    {
+        cellZone cz_wirbler;
+        solver solidBody;
+        // Solve displacement on top of solid-body rotation
+        //solver solidBodyDisplacementLaplacian;
+
+        //solidBodyDisplacementLaplacianCoeffs
+        solidBodyCoeffs
+        {
+            solidBodyMotionFunction  multiMotion;
+            multiMotionCoeffs
+            {
+                rotation_3
+                {
+                    $rotation1;
+                }
+                rotation_4
+                {
+                    // Apply counter rotation to keep dualWing aligned
+                    solidBodyMotionFunction rotatingMotion;
+                    rotatingMotionCoeffs
+                    {
+                        origin      (-0.046423 0.636729 0);
+                        axis        (0 0 1);
+                        omega       26.178; // rad/s, 1rad/s=9.5rpm
+                    }
+                }
+            }
+            //diffusivity quadratic inverseDistance (wirbler_wall);
+        }
+    }
+}
+
+// ************************************************************************* //

@@ -1,0 +1,44 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+|    _ _ _ _    |                                                              |
+| //         \\ | Creative Fields CF-MESH+                                   |
+| | CF-MESH+  | |                                                              |
+| \\ _ _ _ _ // | Version: 3.4.4                                             |
+|               | Web: www.c-fields.com e-mail: support@c-fields.com           |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+version	2;
+format	ascii;
+class	dictionary;
+location	"system";
+object	meshDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+maxCellSize	0.06;
+surfaceFile	"surfaceMeshes/fluid.fms";
+localRefinement
+{
+    bottom_wall
+    {
+        additionalRefinementLevels	2;
+    }
+    fluidToSchaufelBottom_ami
+    {
+        additionalRefinementLevels	2;
+    }
+    fluidToSchaufelSide_ami
+    {
+        additionalRefinementLevels	1;
+    }
+    fluidToSchaufelTop_ami
+    {
+        additionalRefinementLevels	1;
+    }
+    fluidToWirbler_ami
+    {
+        additionalRefinementLevels	1;
+    }
+}
+
+// ************************************************************************* //

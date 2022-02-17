@@ -1,0 +1,105 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      decomposeParDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+numberOfSubdomains 20;
+
+method          kahip;
+
+/*
+hierarchicalCoeffs
+{
+	n (6 6 1);
+	delta 0.001;
+	order xyz;
+}
+*/
+
+/*
+regions
+{
+    region0
+    {
+       numberOfSubdomains 40;
+       method          scotch;
+    }
+
+    region1
+    {
+       numberOfSubdomains 30;
+       method          scotch;
+    }
+    
+    region2
+    {
+       numberOfSubdomains 2;
+       method          scotch;
+    }
+}
+*/
+/*
+constrains
+{
+
+	patches
+	{
+	   type  preservePatches;
+	   patches  (fluidToSchaufelAMI
+		     schaufelToFluidAMI
+		     fluidToWirblerAMI
+		     wirblerToFluidAMI);
+	   enabled  true;	
+	}
+}
+*/
+
+
+singleProcessorFaceSets
+(
+                (fs_schaufelSide_ami -1)
+		(fs_schaufelTop_ami -1)
+		(fs_schaufelBottom_ami -1)
+                (fs_wirbler_ami -1)
+);
+
+
+
+
+/*
+constrains
+{
+ processors
+    {
+        type    singleProcessorFaceSets;
+        sets    (
+                (fs_fluidToSchaufel_ami 1)
+                (fs_schaufelToFluid_ami 1)
+                (fs_fluidToWirbler_ami 2)
+                (fs_wirblerToFluid_ami 2)
+                );
+        enabled true;
+    }
+
+
+ faces
+    {
+        type    preserveFaceZones;
+        zones   (fz_fluidToSchaufel_ami fz_schaufelToFluid_ami fz_fluidToWirbler_ami fz_wirblerToFluid_ami );
+        enabled true;
+    }
+}
+*/
+
+

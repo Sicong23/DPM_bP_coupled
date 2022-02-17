@@ -1,0 +1,241 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      particleProperties;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solution
+{
+    active          true;
+    coupled         true;
+    transient       yes;
+    cellValueSourceCorrection off;
+    maxCo           0.8;
+
+    //averagingMethod dual;
+
+    sourceTerms
+    {
+        schemes
+        {
+            U       semiImplicit 1;
+        }
+    }
+
+    interpolationSchemes
+    {
+        rho             cell;
+        U.air           cellPoint;
+        mu.air          cell;
+        rho.air         cell;
+    }
+
+    integrationSchemes
+    {
+        U               Euler;
+    }
+}
+
+constantProperties
+{
+    
+	//parcelTypeId 	1;   //sand
+	rhoMin          1e-15;
+    	minParcelMass   1e-15;
+	youngsModulus   1e8;
+	poissonsRatio   0.2;	
+	rho0            2181;
+	constantVolume  false;
+    	alphaMax        0.99;
+
+	
+	//parcelTypeId	2;   //kies
+	//rhoMin          1e-15;
+    	//minParcelMass   1e-15;
+	//youngsModulus   1e8;
+	//poissonsRatio   0.4;	
+	//rho0            2181;
+	//constantVolume  false;
+    	//alphaMax        0.99;
+}
+
+subModels
+{
+    particleForces
+    {
+        gravity;
+
+        ErgunWenYuDrag
+        {
+           alphac alpha.air;
+        }
+    }
+
+    injectionModels
+    {
+        /*model1
+        {
+            type            manualInjection;
+	    massTotal       0;      
+            parcelBasisType fixed;
+            nParticle       1;
+ 	    SOI             0;
+            positionsFile   "Sanddistribution";
+            U0              (0 0 0);
+
+            sizeDistribution
+	    {
+	        type uniform;
+                uniformDistribution
+                {
+                    minValue        15e-03;
+                    maxValue        15e-03;
+                }
+	    }
+
+        }
+
+	model2
+	{
+	    type	    manualInjection;
+	    massTotal       0;
+	    parcelBasisType fixed; 
+            nParticle       1;
+            SOI             0;
+            positionsFile   "Kiesdistribution";
+	    U0              (0 0 0);
+
+            sizeDistribution
+	    {
+	        type uniform;
+                uniformDistribution
+                {
+                    minValue        21e-03;
+                    maxValue        21e-03;
+                }
+	    }
+
+	}*/
+    }
+
+    dispersionModel none;
+
+    heatTransferModel none;
+
+    surfaceFilmModel none;
+
+    collisionModel pairCollision;
+    
+    pairCollisionCoeffs
+    {
+        maxInteractionDistance  15e-3;
+
+        writeReferredParticleCloud no;
+
+        pairModel pairSpringSliderDashpot;
+
+        pairSpringSliderDashpotCoeffs
+        {
+            useEquivalentSize   no;
+            alpha               1;
+            b                   1.5;
+            mu                  0.5;
+            cohesionEnergyDensity 0;
+            collisionResolutionSteps 12;
+        };
+        
+        wallModel wallSpringSliderDashpot;
+
+        wallSpringSliderDashpotCoeffs
+        {
+            useEquivalentSize no;
+            collisionResolutionSteps 12;
+            youngsModulus   1e8;
+            poissonsRatio   0.3;
+            alpha           1;
+            b               1.5;
+            mu              0.5;
+            cohesionEnergyDensity 0;
+        };
+        
+        U	U.air;
+    }
+
+   
+   
+    patchInteractionModel standardWallInteraction;
+
+    standardWallInteractionCoeffs
+    {
+        type        rebound;    //  stick, escape
+        e           0.2;        //  elasticity coeff
+        mu          0.5;       //  tan coeff
+        //UrMax       1e-4;       //  relative U of particle after collision
+                                //  bellow which the particle is considered
+                                //  at the same U as the patch and deleted
+    }
+
+    stochasticCollisionModel none;
+
+    dampingModel none;
+
+    isotropyModel none;
+
+    radiation off;
+}
+
+
+cloudFunctions
+{
+    schaufel_wall
+    {
+        type            facePostProcessing;
+        surfaceFormat   vtk;
+        resetOnWrite    no;
+        log             yes;
+
+        faceZones
+        (
+            fz_schaufel_wall
+        );
+    }
+    
+    wirbler_wall
+    {
+        type            facePostProcessing;
+        surfaceFormat   vtk;
+        resetOnWrite    no;
+        log             yes;
+
+        faceZones
+        (
+            fz_wirbler_wall
+        );
+    }
+    
+    /*patchPostProcessing1
+    {
+        type            patchPostProcessing;
+        fields          (position "U.*" f d);
+        maxStoredParcels 50000;
+        patches
+        (
+          schaufel_wall
+          wirbler_wall  
+        );
+     }*/
+    
+}
+
+
+// ************************************************************************* //
